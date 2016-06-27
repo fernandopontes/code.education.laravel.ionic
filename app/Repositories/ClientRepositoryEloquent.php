@@ -1,0 +1,53 @@
+<?php
+
+namespace CodeDelivery\Repositories;
+
+use Illuminate\Foundation\Auth\User;
+use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Criteria\RequestCriteria;
+use CodeDelivery\Repositories\ClientRepository;
+use CodeDelivery\Models\Client;
+use CodeDelivery\Validators\ClientValidator;;
+
+/**
+ * Class ClientRepositoryEloquent
+ * @package namespace CodeDelivery\Repositories;
+ */
+class ClientRepositoryEloquent extends BaseRepository implements ClientRepository
+{
+    public function lists($column = 'name', $key = 'id')
+    {
+        $clients = $this->model->lists('user_id', 'id');
+
+        $users = [];
+
+        foreach($clients as $indice => $user_id)
+        {
+            $user = User::find($user_id);
+
+            $users[$indice] = $user->name;
+        }
+
+        return $users;
+    }
+
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return Client::class;
+    }
+
+    
+
+    /**
+     * Boot up the repository, pushing criteria
+     */
+    public function boot()
+    {
+        $this->pushCriteria(app(RequestCriteria::class));
+    }
+}
