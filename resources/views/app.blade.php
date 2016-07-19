@@ -34,10 +34,15 @@
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+					@if(auth()->user()->role == "admin")
 					<li><a href="{{ route('admin.categories.index') }}">Categorias</a></li>
 					<li><a href="{{ route('admin.products.index') }}">Produtos</a></li>
 					<li><a href="{{ route('admin.clients.index') }}">Clientes</a></li>
 					<li><a href="{{ route('admin.orders.index') }}">Pedidos</a></li>
+					<li><a href="{{ route('admin.cupoms.index') }}">Cupons</a></li>
+					@elseif(auth()->user()->role == "client")
+						<li><a href="{{ route('customer.order.index') }}">Meus pedidos</a></li>
+					@endif
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -67,5 +72,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="{{ asset('js/main.js') }}"></script>
+
+	@yield('post-script')
 </body>
 </html>

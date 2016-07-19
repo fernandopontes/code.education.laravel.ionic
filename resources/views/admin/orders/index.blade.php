@@ -39,6 +39,8 @@
                             case 4:
                                 $status = 'Pedido finalizado';
                                 break;
+                            default:
+                                $status = "Sem status";
                         }
                     ?>
                     <tr>

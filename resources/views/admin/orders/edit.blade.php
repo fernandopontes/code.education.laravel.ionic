@@ -16,7 +16,6 @@
             {!! Form::submit('Editar', ['class' => 'btn btn-primary']) !!}
             <a class="btn btn-default" href="{{ route('admin.orders.index') }}">Voltar</a>
         </div>
-
         {!! Form::close() !!}
     </div>
 @endsection
