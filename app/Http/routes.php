@@ -26,12 +26,17 @@
 
 Route::pattern('id', '[0-9]+');
 
+
 Route::group(['middleware' => ['web']], function () {
 
     Route::auth();
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
     Route::get('auth/login', 'HomeController@index');
+
+    Route::post('oauth/access_token', function() {
+        return Response::json(Authorizer::issueAccessToken());
+    });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], function() {
 
@@ -78,6 +83,18 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('order', ['as' => 'order.index', 'uses' => 'CheckoutController@index']);
         Route::get('order/create', ['as' => 'order.create', 'uses' => 'CheckoutController@create']);
         Route::post('order/store', ['as' => 'order.store', 'uses' => 'CheckoutController@store']);
+    });
+
+    Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], function() {
+
+        Route::get('teste', function() {
+            return [
+                'id' => "1",
+                'client' => "Fernando",
+                'total' => 10
+            ];
+        });
+
     });
 });
 
